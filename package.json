@@ -1,0 +1,23 @@
+{
+  "name": "eventful",
+  "version": "1.0.0",
+  "description": "",
+  "main": "eventful.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesRobertHugginsNgo/eventful.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesRobertHugginsNgo/eventful/issues"
+  },
+  "homepage": "https://github.com/JamesRobertHugginsNgo/eventful#readme",
+  "devDependencies": {
+    "eslint": "^6.6.0"
+  }
+}
