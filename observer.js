@@ -10,7 +10,7 @@ export const propertyDescriptor = {
 
 	listenTo: {
 		value(emitter, name, handler, once = false) {
-			if (emitter.defindByEventfulEmitterPropertyDescriptor) {
+			if (emitter.definedByEventfulEmitterPropertyDescriptor) {
 				emitter.on(name, handler, once, this);
 			}
 
@@ -38,7 +38,7 @@ export const propertyDescriptor = {
 					}
 
 					emitters.forEach((emitter) => {
-						if (emitter.defindByEventfulEmitterPropertyDescriptor) {
+						if (emitter.definedByEventfulEmitterPropertyDescriptor) {
 							emitter.off(key, handler, once, this);
 						}
 					});
@@ -54,8 +54,8 @@ export const propertyDescriptor = {
 	}
 };
 
-export function defineAsEventfulObserver(observer) {
-	if (!observer.defindByEventfulObserverPropertyDescriptor) {
+export function defineAsEventfulObserver(observer = {}) {
+	if (!observer.definedByEventfulObserverPropertyDescriptor) {
 		Object.defineProperties(observer, propertyDescriptor);
 	}
 

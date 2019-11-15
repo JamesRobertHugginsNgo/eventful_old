@@ -20,7 +20,7 @@ export const propertyDescriptor = {
 			}
 			this.eventfulEmitterData[name].push({ handler, once, observer });
 
-			if (observer && observer.defindByEventfulObserverPropertyDescriptor) {
+			if (observer && observer.definedByEventfulObserverPropertyDescriptor) {
 				if (!observer.eventfulObserverData[name]) {
 					observer.eventfulObserverData[name] = [];
 				}
@@ -46,7 +46,7 @@ export const propertyDescriptor = {
 
 							this.eventfulEmitterData[key].splice(emitterIndex, 1);
 
-							if (observer && observer.defindByEventfulObserverPropertyDescriptor) {
+							if (observer && observer.definedByEventfulObserverPropertyDescriptor) {
 								if (observer.eventfulObserverData && observer.eventfulObserverData[key]) {
 
 									let observerIndex = 0;
@@ -94,8 +94,8 @@ export const propertyDescriptor = {
 	}
 };
 
-export function defineAsEventfulEmitter(emitter) {
-	if (!emitter.defindByEventfulEmitterPropertyDescriptor) {
+export function defineAsEventfulEmitter(emitter = {}) {
+	if (!emitter.definedByEventfulEmitterPropertyDescriptor) {
 		Object.defineProperties(emitter, propertyDescriptor);
 	}
 
