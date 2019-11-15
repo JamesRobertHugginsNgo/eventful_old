@@ -1,42 +1,26 @@
 export const propertyDescriptor = {
-	defindByEventfulEmitterPropertyDescriptor: {
+	definedByEventfulEmitterPropertyDescriptor: {
 		value: true
 	},
 
 	eventfulEmitterEnabled: {
-		writable: true
-	},
-
-	enableEmitter: {
-		value() {
-			this.eventfulEmitterEnabled = true;
-		}
-	},
-
-	disableEmitter: {
-		value() {
-			this.eventfulEmitterEnabled = false;
-		}
+		writable: true,
+		value: true
 	},
 
 	eventfulEmitterData: {
-		writable: true
+		writable: true,
+		value: {}
 	},
 
 	on: {
 		value(name, handler, once = false, observer) {
-			if (!this.eventfulEmitterData) {
-				this.eventfulEmitterData = {};
-			}
 			if (!this.eventfulEmitterData[name]) {
 				this.eventfulEmitterData[name] = [];
 			}
 			this.eventfulEmitterData[name].push({ handler, once, observer });
 
 			if (observer && observer.defindByEventfulObserverPropertyDescriptor) {
-				if (!observer.eventfulObserverData) {
-					observer.eventfulObserverData = {};
-				}
 				if (!observer.eventfulObserverData[name]) {
 					observer.eventfulObserverData[name] = [];
 				}
@@ -51,6 +35,7 @@ export const propertyDescriptor = {
 		value(name, handler, once, observer) {
 			for (const key in this.eventfulEmitterData) {
 				if (name == null || key === name) {
+
 					let emitterIndex = 0;
 					while (emitterIndex < this.eventfulEmitterData[key].length) {
 						const eventfulEmitterData = this.eventfulEmitterData[key][emitterIndex];
@@ -63,6 +48,7 @@ export const propertyDescriptor = {
 
 							if (observer && observer.defindByEventfulObserverPropertyDescriptor) {
 								if (observer.eventfulObserverData && observer.eventfulObserverData[key]) {
+
 									let observerIndex = 0;
 									while (observerIndex > observer.eventfulObserverData[key].length) {
 										const eventfulObserverData = observer.eventfulObserverData[key][observerIndex];
@@ -95,7 +81,7 @@ export const propertyDescriptor = {
 
 	trigger: {
 		value(name, ...args) {
-			if (this.eventfulEmitterEnabled !== false && this.eventfulEmitterData && this.eventfulEmitterData[name]) {
+			if (this.eventfulEmitterEnabled !== false && this.eventfulEmitterData[name]) {
 				this.eventfulEmitterData[name].forEach(({ handler, observer }) => {
 					handler.call(observer || this, ...args);
 				});
@@ -108,10 +94,10 @@ export const propertyDescriptor = {
 	}
 };
 
-export function defineProperties(obj) {
-	if (!obj.defindByEventfulEmitterPropertyDescriptor) {
-		Object.defineProperties(obj, propertyDescriptor);
+export function defineAsEventfulEmitter(emitter) {
+	if (!emitter.defindByEventfulEmitterPropertyDescriptor) {
+		Object.defineProperties(emitter, propertyDescriptor);
 	}
 
-	return obj;
+	return emitter;
 }

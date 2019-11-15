@@ -1,14 +1,14 @@
 import * as emitter from './emitter';
 import * as observer from './observer';
 
-export function defineProperties(obj, { asEmitter = true, asObserver = true } = {}) {
+export function defineAsEventful(eventful, { asEmitter = true, asObserver = true } = {}) {
 	if (asEmitter) {
-		obj = emitter.defineProperties(obj);
+		eventful = emitter.defineAsEventfulEmitter(eventful);
 	}
 
 	if (asObserver) {
-		obj = observer.defineProperties(obj);
+		eventful = observer.defineAsEventfulObserver(eventful);
 	}
 
-	return obj;
+	return eventful;
 }

@@ -1,10 +1,11 @@
 export const propertyDescriptor = {
-	defindByEventfulObserverPropertyDescriptor: {
+	definedByEventfulObserverPropertyDescriptor: {
 		value: true
 	},
 
 	eventfulObserverData: {
-		writable: true
+		writable: true,
+		value: {}
 	},
 
 	listenTo: {
@@ -19,33 +20,31 @@ export const propertyDescriptor = {
 
 	stopListening: {
 		value(emitter, name, handler, once) {
-			if (this.eventfulObserverData) {
-				for (const key in this.eventfulObserverData) {
-					if (name == null || key === name) {
-						const emitters = [];
+			for (const key in this.eventfulObserverData) {
+				if (name == null || key === name) {
+					const emitters = [];
 
-						for (let index = 0, length = this.eventfulObserverData[key].length; index < length; index++) {
-							const eventfulObserverData = this.eventfulObserverData[key][index];
-							if (emitter == null || eventfulObserverData.emitter === emitter) {
-								if (emitters.indexOf(eventfulObserverData.emitter) === -1) {
-									emitters.push(eventfulObserverData.emitter);
-								}
-							}
-
-							if (emitter != null) {
-								break;
+					for (let index = 0, length = this.eventfulObserverData[key].length; index < length; index++) {
+						const eventfulObserverData = this.eventfulObserverData[key][index];
+						if (emitter == null || eventfulObserverData.emitter === emitter) {
+							if (emitters.indexOf(eventfulObserverData.emitter) === -1) {
+								emitters.push(eventfulObserverData.emitter);
 							}
 						}
 
-						emitters.forEach((emitter) => {
-							if (emitter.defindByEventfulEmitterPropertyDescriptor) {
-								emitter.off(key, handler, once, this);
-							}
-						});
-
-						if (name != null) {
+						if (emitter != null) {
 							break;
 						}
+					}
+
+					emitters.forEach((emitter) => {
+						if (emitter.defindByEventfulEmitterPropertyDescriptor) {
+							emitter.off(key, handler, once, this);
+						}
+					});
+
+					if (name != null) {
+						break;
 					}
 				}
 			}
@@ -55,10 +54,10 @@ export const propertyDescriptor = {
 	}
 };
 
-export function defineProperties(obj) {
-	if (!obj.defindByEventfulObserverPropertyDescriptor) {
-		Object.defineProperties(obj, propertyDescriptor);
+export function defineAsEventfulObserver(observer) {
+	if (!observer.defindByEventfulObserverPropertyDescriptor) {
+		Object.defineProperties(observer, propertyDescriptor);
 	}
 
-	return obj;
+	return observer;
 }
