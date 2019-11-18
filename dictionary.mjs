@@ -6,7 +6,7 @@ export const propertyDescriptors = Object.assign({
 		value: true
 	},
 
-	eventfulDictionaryPropertyData: {
+	eventfulDictionaryData: {
 		writable: true,
 		value: {}
 	},
@@ -17,7 +17,7 @@ export const propertyDescriptors = Object.assign({
 			const propertyDescriptor = Object.getOwnPropertyDescriptor(this, name);
 			if (!propertyDescriptor || (!propertyDescriptor.get && !propertyDescriptor.set)) {
 				if (value !== undefined) {
-					this.eventfulDictionaryPropertyData[name] = value;
+					this.eventfulDictionaryData[name] = value;
 				}
 
 				delete this[name];
@@ -26,11 +26,11 @@ export const propertyDescriptors = Object.assign({
 					configurable: true,
 					enumerable: true,
 					set(value) {
-						if (this.eventfulDictionaryPropertyData[name] !== value) {
-							const oldValue = this.eventfulDictionaryPropertyData[name];
+						if (this.eventfulDictionaryData[name] !== value) {
+							const oldValue = this.eventfulDictionaryData[name];
 
 							setter.call(this, value, () => {
-								this.eventfulDictionaryPropertyData[name] = value;
+								this.eventfulDictionaryData[name] = value;
 
 								this.trigger('change', name, value, oldValue);
 								this.trigger(`change:${name}`, value, oldValue);
@@ -39,7 +39,7 @@ export const propertyDescriptors = Object.assign({
 					},
 					get() {
 						return getter.call(this, () => {
-							return this.eventfulDictionaryPropertyData[name];
+							return this.eventfulDictionaryData[name];
 						});
 					}
 				});
@@ -54,9 +54,9 @@ export const propertyDescriptors = Object.assign({
 		value(name) {
 			const propertyDescriptor = Object.getOwnPropertyDescriptor(this, name);
 			if (propertyDescriptor && (propertyDescriptor.get || propertyDescriptor.set)) {
-				const value = this.eventfulDictionaryPropertyData[name];
+				const value = this.eventfulDictionaryData[name];
 
-				delete this.eventfulDictionaryPropertyData[name];
+				delete this.eventfulDictionaryData[name];
 				delete this[name];
 
 				if (value !== undefined) {
@@ -71,7 +71,7 @@ export const propertyDescriptors = Object.assign({
 
 	toJSON: {
 		value() {
-			const json = Object.assign({}, this.eventfulDictionaryPropertyData);
+			const json = Object.assign({}, this.eventfulDictionaryData);
 			for (const key in json) {
 				if (json[key].definedByEventfulDictionaryPropertyDescriptor) {
 					json[key] = json[key].toJSON();
