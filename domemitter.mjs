@@ -1,7 +1,7 @@
-import { propertyDescriptor as emitterPropertyDescriptor } from './emitter.mjs';
+import { propertyDescriptors as emitterPropertyDescriptors } from './emitter.mjs';
 
-export const propertyDescriptor = Object.assign({
-	definedByEventfulDomEmitterPropertyDescriptor: {
+export const propertyDescriptors = Object.assign({
+	definedByEventfulDomEmitterPropertyDescriptors: {
 		value: true
 	},
 
@@ -9,7 +9,7 @@ export const propertyDescriptor = Object.assign({
 		writable: true,
 		value: {}
 	}
-}, emitterPropertyDescriptor, {
+}, emitterPropertyDescriptors, {
 	on: {
 		value(name, ...args) {
 			if (!this.eventfulDomEmitterListeners[name]) {
@@ -20,13 +20,13 @@ export const propertyDescriptor = Object.assign({
 				this.eventfulDomEmitterListeners[name] = listener;
 			}
 
-			return emitterPropertyDescriptor.on.value.call(this, name, ...args);
+			return emitterPropertyDescriptors.on.value.call(this, name, ...args);
 		}
 	},
 
 	off: {
 		value(name, ...args) {
-			const returnValue = emitterPropertyDescriptor.off.value.call(this, name, ...args);
+			const returnValue = emitterPropertyDescriptors.off.value.call(this, name, ...args);
 
 			for (const key in this.eventfulDomEmitterListeners) {
 				if (name == null || key === name) {
@@ -45,3 +45,14 @@ export const propertyDescriptor = Object.assign({
 		}
 	}
 });
+
+// A convenience function to properly use the property descriptor
+export function defineAsEventfulDomEmitter(domEmitter = {}) {
+
+	// Avoid overriding the same property descriptors
+	if (!domEmitter.definedByEventfulDomEmitterPropertyDescriptors) {
+		Object.defineProperties(domEmitter, propertyDescriptors);
+	}
+
+	return domEmitter;
+}
