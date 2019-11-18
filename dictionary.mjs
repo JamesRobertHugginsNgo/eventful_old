@@ -73,9 +73,9 @@ export const propertyDescriptors = Object.assign({
 		value() {
 			const json = Object.assign({}, this.eventfulDictionaryData);
 			for (const key in json) {
-				if (json[key].definedByEventfulDictionaryPropertyDescriptor) {
+				if (json[key].definedByEventfulDictionaryPropertyDescriptors) {
 					json[key] = json[key].toJSON();
-				} else if (json[key].definedByEventfulCollectionPropertyDescriptor) {
+				} else if (json[key].definedByEventfulCollectionPropertyDescriptors) {
 					json[key] = json[key].toArray();
 				}
 			}
