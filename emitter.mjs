@@ -1,6 +1,7 @@
-export const propertyDescriptor = {
+export const propertyDescriptors = {
+
 	// Flags object defined by this property descriptor
-	definedByEventfulEmitterPropertyDescriptor: {
+	definedByEventfulEmitterPropertyDescriptors: {
 		value: true
 	},
 
@@ -121,9 +122,9 @@ export const propertyDescriptor = {
 // A convenience function to properly use the property descriptor
 export function defineAsEventfulEmitter(emitter = {}) {
 
-	// Avoid overriding the same property descriptor
-	if (!emitter.definedByEventfulEmitterPropertyDescriptor) {
-		Object.defineProperties(emitter, propertyDescriptor);
+	// Avoid overriding the same property descriptors
+	if (!emitter.definedByEventfulEmitterPropertyDescriptors) {
+		Object.defineProperties(emitter, propertyDescriptors);
 	}
 
 	return emitter;

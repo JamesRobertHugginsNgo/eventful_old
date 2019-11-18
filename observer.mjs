@@ -1,5 +1,5 @@
-export const propertyDescriptor = {
-	definedByEventfulObserverPropertyDescriptor: {
+export const propertyDescriptors = {
+	definedByEventfulObserverPropertyDescriptors: {
 		value: true
 	},
 
@@ -55,8 +55,8 @@ export const propertyDescriptor = {
 };
 
 export function defineAsEventfulObserver(observer = {}) {
-	if (!observer.definedByEventfulObserverPropertyDescriptor) {
-		Object.defineProperties(observer, propertyDescriptor);
+	if (!observer.definedByEventfulObserverPropertyDescriptors) {
+		Object.defineProperties(observer, propertyDescriptors);
 	}
 
 	return observer;
